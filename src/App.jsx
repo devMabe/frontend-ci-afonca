@@ -8,6 +8,7 @@ import User from "./components/user/User"
 import Config from "./components/user/Config"
 import Home from "./pages/Home"
 import Create from "./components/user/Create"
+import Edit from "./components/user/Edit"
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/dashboard/" Component={Home} />
         <Route path="/dashboard/users" Component={User} />
         <Route path="/dashboard/users/create" Component={Create} />
+        <Route path="/dashboard/users/:id/edit" Component={Edit} />
         <Route path="/dashboard/configuracion" Component={Config} />
         <Route path="/" Component={Login} />
       </Routes>

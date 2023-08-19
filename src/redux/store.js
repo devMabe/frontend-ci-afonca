@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
+
+
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:3006",
   prepareHeaders: (headers) => {
@@ -12,11 +14,15 @@ const baseQuery = fetchBaseQuery({
   },
 })
 
+
 export const api = createApi({
   baseQuery,
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: () => "users",
+    }),
+    getUser: builder.query({
+      query: (userId) => `users/${userId}`
     }),
     resetPasswordUser: builder.mutation({
       query: (userEmail) => ({
@@ -52,17 +58,26 @@ export const api = createApi({
         method: "POST",
         body: newUser
       })
+    }),
+    updateUser: builder.mutation({
+      query: (data) => ({
+        url: `users/update-user/${data.id}`,
+        method: "PUT",
+        body: data.userData,
+      })
     })
   }),
 })
 
 export const {
   useGetUsersQuery,
+  useGetUserQuery,
   useRegisterUserMutation,
   useLoginUserMutation,
   useResetPasswordUserMutation,
   useConfirmPasswordUserMutation,
-  useCreateUserMutation
+  useCreateUserMutation,
+  useUpdateUserMutation
 } = api
 
 export default configureStore({

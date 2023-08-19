@@ -57,7 +57,10 @@ function Table({ users, itemsPerPage }) {
                   {user.enable ? "Activo" : "Bloqueado"}
                 </td>
                 <td className="p-2">
-                  <Link className="text-indigo-500 font-semibold hover:underline hover:text-indigo-400">
+                  <Link
+                    to={`/dashboard/users/${user.id}/edit`}
+                    className="text-indigo-500 font-semibold hover:underline hover:text-indigo-400"
+                  >
                     Editar
                   </Link>
                 </td>
