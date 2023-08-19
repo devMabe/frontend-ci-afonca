@@ -7,14 +7,12 @@ function Header() {
 
   return (
     <header className="flex items-center justify-between p-4 ">
-      <form className="w-[30%]">
-        <div className="relative w-full">
-          <RiSearchLine className="absolute left-2 top-3" />
-          <input
-            type="text"
-            className="bg-gray-100 py-2 pl-8 pr-4 outline-none rounded-lg w-full"
-            placeholder="Buscar..."
-          />
+      <form className="w-[28%]">
+        <div className="relative w-full bg-gray-200 rounded-lg">
+          <h2 className="font-bold p-2">
+            Ingresaste como:{" "}
+            {user?.roles === "ADMIN" ? "Administrador 👨‍💻" : "Usuario  🧑‍💻"}
+          </h2>
         </div>
       </form>
       {/* Nofiticaciones */}
@@ -22,7 +20,7 @@ function Header() {
         <ul className="flex items-center">
           <li>
             <Link className="flex items-center gap-1 font-bold bg-gray-200 p-2 rounded-lg">
-              {user?.firstName} {user?.lastName} <RiArrowDownSLine />
+              Hola 👋 {user?.firstName} {user?.lastName}
             </Link>
           </li>
         </ul>

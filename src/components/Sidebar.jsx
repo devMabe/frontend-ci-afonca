@@ -17,33 +17,11 @@ function Sidebar() {
           <ul>
             <li>
               <Link
-                to="/dashboard"
-                className="flex items-center gap-4 hover:bg-gray-600 p-4 text-gray-400 hover:text-white rounded-lg transition-colors font-semibold"
-              >
-                <RiDashboardLine />
-                Inicio
-              </Link>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <Link
                 to="/dashboard/users"
                 className="flex items-center gap-4 hover:bg-gray-600 p-4 text-gray-400 hover:text-white rounded-lg transition-colors font-semibold"
               >
                 <RiUserSettingsLine />
                 Usuarios
-              </Link>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <Link
-                to="/dashboard/configuracion"
-                className="flex items-center gap-4 hover:bg-gray-600 p-4 text-gray-400 hover:text-white rounded-lg transition-colors font-semibold"
-              >
-                <RiSettings4Line />
-                Configuración
               </Link>
             </li>
           </ul>
