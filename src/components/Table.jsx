@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { useEnableUserMutation } from "../redux/store"
+import { useEnableUserMutation, useSetRoleMutation } from "../redux/store"
 import { ToastContainer, toast } from "react-toastify"
 import { userLogged } from "../utils/user.util"
 import {
@@ -13,6 +13,7 @@ import {
 
 function Table({ users, itemsPerPage }) {
   const [enableUser] = useEnableUserMutation()
+  const [setRole] = useSetRoleMutation()
   const [isLoading, setIsLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -53,6 +54,43 @@ function Table({ users, itemsPerPage }) {
           theme: "colored",
         }
       )
+      const redirect = () =>
+        setTimeout(() => {
+          setIsLoading(false)
+          location.href = "/dashboard/users"
+        }, 1500)
+
+      redirect()
+      setIsLoading(false)
+    })
+  }
+
+  const handleRole = (id, roles) => {
+    roles === "USER" ? (roles = "ADMIN") : (roles = "USER")
+    setRole({ id, roles: roles }).then((response) => {
+      if (response.error) {
+        setIsLoading(false)
+        toast.error(`¡${response.error.data.message}!`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        })
+      }
+      toast.success(`¡Rol cambiado exitosamente!`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      })
       const redirect = () =>
         setTimeout(() => {
           setIsLoading(false)
@@ -116,7 +154,7 @@ function Table({ users, itemsPerPage }) {
                   {user.enable ? "Activo" : "Bloqueado"}
                 </td>
                 <td className="p-2">
-                  {userAuth.roles !== user.roles ? (
+                  {userAuth.email !== user.email ? (
                     <div className="flex justify-center gap-2 text-xl">
                       {userAuth.roles === "ADMIN" ? (
                         <Link
@@ -143,7 +181,7 @@ function Table({ users, itemsPerPage }) {
                       ) : null}
                       {userAuth.roles === "ADMIN" ? (
                         <button
-                          onClick={() => handleRole(user.id)}
+                          onClick={() => handleRole(user.id, user.roles)}
                           className="text-indigo-500 font-semibold hover:underline hover:text-white"
                           title={
                             user.roles === "ADMIN"
