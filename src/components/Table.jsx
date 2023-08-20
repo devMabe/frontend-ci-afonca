@@ -13,7 +13,6 @@ import {
 
 function Table({ users, itemsPerPage }) {
   const [enableUser] = useEnableUserMutation()
-  const [setRole] = useSetRoleMutation()
   const [isLoading, setIsLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
 
