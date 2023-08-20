@@ -1,7 +1,12 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useEnableUserMutation } from "../redux/store"
+import { ToastContainer, toast } from "react-toastify"
+import { userLogged } from "../utils/user.util"
 
 function Table({ users, itemsPerPage }) {
+  const [enableUser] = useEnableUserMutation()
+  const [isLoading, setIsLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
 
   const indexOflastItem = currentPage * itemsPerPage
@@ -9,6 +14,49 @@ function Table({ users, itemsPerPage }) {
   const currentUsers = users.slice(indexOfFirstItem, indexOflastItem)
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber)
+
+  const userAuth = userLogged()
+
+  const handleButton = (id, status) => {
+    const enable = status ? false : true
+    enableUser({ id, enable: enable }).then((response) => {
+      if (response.error) {
+        setIsLoading(false)
+        toast.error(`¡${response.error.data.message}!`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        })
+      }
+      toast.success(
+        `¡Se ha ${enable ? "Activado" : "Bloqueado"} correctamente!`,
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        }
+      )
+      const redirect = () =>
+        setTimeout(() => {
+          setIsLoading(false)
+          location.href = "/dashboard/users"
+        }, 1500)
+
+      redirect()
+      setIsLoading(false)
+    })
+  }
+
   return (
     <div className="flex flex-col gap-2">
       <h1 className="font-bold capitalize p-7 hidden">Usuarios registrados</h1>
@@ -40,7 +88,7 @@ function Table({ users, itemsPerPage }) {
               <th>Fecha-nacimiento</th>
               <th>Role</th>
               <th>Estado</th>
-              <th>Opciones</th>
+              {userAuth.roles === "USER" ? null : <th>Acciones</th>}
             </tr>
           </thead>
 
@@ -57,12 +105,27 @@ function Table({ users, itemsPerPage }) {
                   {user.enable ? "Activo" : "Bloqueado"}
                 </td>
                 <td className="p-2">
-                  <Link
-                    to={`/dashboard/users/${user.id}/edit`}
-                    className="text-indigo-500 font-semibold hover:underline hover:text-indigo-400"
-                  >
-                    Editar
-                  </Link>
+                  {userAuth.roles !== user.roles ? (
+                    <div className="flex justify-center gap-2">
+                      {userAuth.roles === "ADMIN" ? (
+                        <Link
+                          to={`/dashboard/users/${user.id}/edit`}
+                          className="text-indigo-500 font-semibold hover:underline hover:text-white"
+                        >
+                          Editar
+                        </Link>
+                      ) : null}
+
+                      {userAuth.roles === "ADMIN" ? (
+                        <button
+                          onClick={() => handleButton(user.id, user.enable)}
+                          className="text-indigo-500 font-semibold hover:underline hover:text-white"
+                        >
+                          {user.enable ? "Bloquear" : "Activar"}
+                        </button>
+                      ) : null}
+                    </div>
+                  ) : null}
                 </td>
               </tr>
             ))}
@@ -86,6 +149,7 @@ function Table({ users, itemsPerPage }) {
             )
           )}
         </div>
+        <ToastContainer />
       </div>
     </div>
   )

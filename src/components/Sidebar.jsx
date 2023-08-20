@@ -1,9 +1,4 @@
-import {
-  RiDashboardLine,
-  RiUserSettingsLine,
-  RiSettings4Line,
-  RiLogoutBoxRLine,
-} from "react-icons/ri"
+import { RiUserSettingsLine, RiLogoutBoxRLine } from "react-icons/ri"
 import { Link } from "react-router-dom"
 import { removeToken } from "../utils/user.util"
 

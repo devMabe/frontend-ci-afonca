@@ -65,6 +65,15 @@ export const api = createApi({
         method: "PUT",
         body: data.userData,
       })
+    }),
+    enableUser: builder.mutation({
+      query: (data) => ({
+        url: `users/enable/${data.id}`,
+        method: "PUT",
+        body: {
+          enable: data.enable
+        }
+      })
     })
   }),
 })
@@ -77,7 +86,8 @@ export const {
   useResetPasswordUserMutation,
   useConfirmPasswordUserMutation,
   useCreateUserMutation,
-  useUpdateUserMutation
+  useUpdateUserMutation,
+  useEnableUserMutation
 } = api
 
 export default configureStore({

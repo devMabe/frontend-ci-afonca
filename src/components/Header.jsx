@@ -11,7 +11,7 @@ function Header() {
         <div className="relative w-full bg-gray-200 rounded-lg">
           <h2 className="font-bold p-2">
             Ingresaste como:{" "}
-            {user?.roles === "ADMIN" ? "Administrador 👨‍💻" : "Usuario  🧑‍💻"}
+            {user?.roles === "ADMIN" ? "Administrador 👨‍💻" : "Operador 🧑‍💻"}
           </h2>
         </div>
       </form>
