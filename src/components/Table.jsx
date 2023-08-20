@@ -3,6 +3,13 @@ import { Link } from "react-router-dom"
 import { useEnableUserMutation } from "../redux/store"
 import { ToastContainer, toast } from "react-toastify"
 import { userLogged } from "../utils/user.util"
+import {
+  RiAdminLine,
+  RiUser3Line,
+  RiEditLine,
+  RiRotateLockLine,
+  RiLockUnlockLine,
+} from "react-icons/ri"
 
 function Table({ users, itemsPerPage }) {
   const [enableUser] = useEnableUserMutation()
@@ -101,18 +108,23 @@ function Table({ users, itemsPerPage }) {
                 <td className="px-1 py-4">{user.email}</td>
                 <td className="px-1 py-4">{user.dob ?? "Sin fecha"}</td>
                 <td className="px-1 py-4">{user.roles}</td>
-                <td className="px-1 py-4">
+                <td
+                  className={`px-1 py-4 ${
+                    user.enable ? "bg-indigo-500 text-white" : "bg-gray-700"
+                  }`}
+                >
                   {user.enable ? "Activo" : "Bloqueado"}
                 </td>
                 <td className="p-2">
                   {userAuth.roles !== user.roles ? (
-                    <div className="flex justify-center gap-2">
+                    <div className="flex justify-center gap-2 text-xl">
                       {userAuth.roles === "ADMIN" ? (
                         <Link
                           to={`/dashboard/users/${user.id}/edit`}
                           className="text-indigo-500 font-semibold hover:underline hover:text-white"
+                          title="Editar"
                         >
-                          Editar
+                          <RiEditLine />
                         </Link>
                       ) : null}
 
@@ -120,8 +132,30 @@ function Table({ users, itemsPerPage }) {
                         <button
                           onClick={() => handleButton(user.id, user.enable)}
                           className="text-indigo-500 font-semibold hover:underline hover:text-white"
+                          title={user.enable ? "Bloquear" : "Activar"}
                         >
-                          {user.enable ? "Bloquear" : "Activar"}
+                          {user.enable ? (
+                            <RiRotateLockLine />
+                          ) : (
+                            <RiLockUnlockLine />
+                          )}
+                        </button>
+                      ) : null}
+                      {userAuth.roles === "ADMIN" ? (
+                        <button
+                          onClick={() => handleRole(user.id)}
+                          className="text-indigo-500 font-semibold hover:underline hover:text-white"
+                          title={
+                            user.roles === "ADMIN"
+                              ? "Cambiar a usuario"
+                              : "Cambiar a administrador"
+                          }
+                        >
+                          {user.roles === "ADMIN" ? (
+                            <RiUser3Line />
+                          ) : (
+                            <RiAdminLine />
+                          )}
                         </button>
                       ) : null}
                     </div>

@@ -1,4 +1,3 @@
-import { RiArrowDownSLine, RiSearchLine } from "react-icons/ri"
 import { Link } from "react-router-dom"
 import { userLogged } from "../utils/user.util"
 
